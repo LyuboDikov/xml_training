@@ -16,6 +16,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
     private final ValidationUtil validationUtil;
+
     public CategoryServiceImpl(CategoryRepository categoryRepository,
                                ModelMapper modelMapper, ValidationUtil validationUtil) {
         this.categoryRepository = categoryRepository;
@@ -25,8 +26,15 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void seedCategories(List<CategorySeedDto> categories) {
+
         categories.stream()
                 .map(categorySeedDto -> modelMapper.map(categorySeedDto, Category.class))
                 .forEach(categoryRepository::save);
+
+    }
+
+    @Override
+    public long getEntityCount() {
+        return categoryRepository.count();
     }
 }
