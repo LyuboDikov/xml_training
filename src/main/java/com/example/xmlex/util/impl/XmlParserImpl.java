@@ -1,5 +1,6 @@
-package com.example.xmlex.util;
+package com.example.xmlex.util.impl;
 
+import com.example.xmlex.util.XmlParser;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.JAXBContext;
