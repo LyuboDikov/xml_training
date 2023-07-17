@@ -14,8 +14,6 @@ public class ValidationUtilImpl implements ValidationUtil {
         this.validator =
                 Validation.buildDefaultValidatorFactory().getValidator();
     }
-
-
     @Override
     public <T> boolean isValid(T entity) {
         return validator.validate(entity).isEmpty();
