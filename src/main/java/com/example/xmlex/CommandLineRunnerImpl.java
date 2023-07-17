@@ -1,9 +1,13 @@
 package com.example.xmlex;
 
+import com.example.xmlex.models.dtos.CategorySeedRootDto;
 import com.example.xmlex.services.CategoryService;
 import com.example.xmlex.util.XmlParser;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import javax.xml.bind.JAXBException;
+import java.io.FileNotFoundException;
 
 @Component
 public class CommandLineRunnerImpl implements CommandLineRunner {
@@ -25,6 +29,13 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         seedData();
     }
 
-    private void seedData() {
+    private void seedData() throws JAXBException, FileNotFoundException {
+
+        CategorySeedRootDto categorySeedRootDto = xmlParser.fromFile(
+                FILES_PATH + CATEGORIES_FILE_NAME,
+                CategorySeedRootDto.class
+        );
+
+
     }
 }
