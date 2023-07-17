@@ -36,6 +36,6 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
                 CategorySeedRootDto.class
         );
 
-
+        categoryService.seedCategories(categorySeedRootDto.getCategories());
     }
 }

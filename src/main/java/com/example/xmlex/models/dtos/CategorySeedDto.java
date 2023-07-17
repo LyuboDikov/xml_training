@@ -1,5 +1,7 @@
 package com.example.xmlex.models.dtos;
 
+import jakarta.validation.constraints.Size;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -12,6 +14,7 @@ public class CategorySeedDto {
     @XmlElement(name = "name")
     private String name;
 
+    @Size(min = 3, max = 15)
     public String getName() {
         return name;
     }
