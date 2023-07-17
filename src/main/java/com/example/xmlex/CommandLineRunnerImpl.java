@@ -3,6 +3,7 @@ package com.example.xmlex;
 import com.example.xmlex.models.dtos.CategorySeedRootDto;
 import com.example.xmlex.models.dtos.UserSeedRootDto;
 import com.example.xmlex.services.CategoryService;
+import com.example.xmlex.services.ProductService;
 import com.example.xmlex.services.UserService;
 import com.example.xmlex.util.XmlParser;
 import jakarta.xml.bind.JAXBException;
@@ -20,13 +21,15 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     private static final String USERS_FILE_NAME = "users.xml";
     private final XmlParser xmlParser;
     private final CategoryService categoryService;
-
     private final UserService userService;
+    private final ProductService productService;
 
-    public CommandLineRunnerImpl(XmlParser xmlParser, CategoryService categoryService, UserService userService) {
+    public CommandLineRunnerImpl(XmlParser xmlParser, CategoryService categoryService,
+                                 UserService userService, ProductService productService) {
         this.xmlParser = xmlParser;
         this.categoryService = categoryService;
         this.userService = userService;
+        this.productService = productService;
     }
 
     @Override
@@ -50,6 +53,9 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
                             UserSeedRootDto.class);
 
             userService.seedUsers(userSeedRootDto.getUsers());
+        }
+
+        if (productService.getProductsCount() == 0) {
 
         }
     }
