@@ -71,11 +71,13 @@ public class ProductServiceImpl implements ProductService {
                             ProductWithSellerDto productWithSellerDto =
                                     modelMapper.map(product, ProductWithSellerDto.class);
 
-                            productWithSellerDto.setSeller(
-                                    String.format("%s %s",
-                                            product.getSeller().getFirstName(),
-                                            product.getSeller().getLastName())
-                            );
+                            if (product.getSeller().getFirstName() != null) {
+                                productWithSellerDto.setSeller(String.format("%s %s",
+                                        product.getSeller().getFirstName(),
+                                        product.getSeller().getLastName()));
+                            } else {
+                                productWithSellerDto.setSeller(product.getSeller().getLastName());
+                            }
 
                             return productWithSellerDto;
                         })
