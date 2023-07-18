@@ -1,5 +1,6 @@
 package com.example.xmlex.models.dtos;
 
+import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -13,6 +14,7 @@ public class ProductSeedDto {
     private String name;
     private BigDecimal price;
 
+    @Size(min = 3)
     public String getName() {
         return name;
     }

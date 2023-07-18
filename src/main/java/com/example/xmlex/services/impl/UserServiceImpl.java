@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,5 +34,14 @@ public class UserServiceImpl implements UserService {
                 .filter(validationUtil::isValid)
                 .map(userSeedDto -> modelMapper.map(userSeedDto, User.class))
                 .forEach(userRepository::save);
+    }
+
+    @Override
+    public User getRandomUser() {
+
+        long randomId = ThreadLocalRandom.current()
+                .nextLong(1, userRepository.count() + 1);
+
+        return userRepository.findById(randomId).orElse(null);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.xmlex;
 
 import com.example.xmlex.models.dtos.CategorySeedRootDto;
+import com.example.xmlex.models.dtos.ProductSeedRootDto;
 import com.example.xmlex.models.dtos.UserSeedRootDto;
 import com.example.xmlex.services.CategoryService;
 import com.example.xmlex.services.ProductService;
@@ -19,6 +20,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     private static final String FILES_PATH = "src/main/resources/files/";
     private static final String CATEGORIES_FILE_NAME = "categories.xml";
     private static final String USERS_FILE_NAME = "users.xml";
+    private static final String PRODUCTS_FILE_NAME = "products.xml";
     private final XmlParser xmlParser;
     private final CategoryService categoryService;
     private final UserService userService;
@@ -56,7 +58,10 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         }
 
         if (productService.getProductsCount() == 0) {
+            ProductSeedRootDto productSeedRootDto =
+                    xmlParser.fromFile(FILES_PATH + PRODUCTS_FILE_NAME, ProductSeedRootDto.class);
 
+            productService.seedProducts(productSeedRootDto.getProducts());
         }
     }
 }
