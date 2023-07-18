@@ -17,6 +17,8 @@ public class ProductWithBuyerDto {
     private BigDecimal price;
     @XmlElement(name = "buyer-first-name")
     private String buyerFirstName;
+
+    @XmlElement(name = "buyer-last-name")
     private String buyerLastName;
 
     public ProductWithBuyerDto() {

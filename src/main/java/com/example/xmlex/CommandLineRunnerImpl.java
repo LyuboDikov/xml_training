@@ -1,9 +1,6 @@
 package com.example.xmlex;
 
-import com.example.xmlex.models.dtos.CategorySeedRootDto;
-import com.example.xmlex.models.dtos.ProductSeedRootDto;
-import com.example.xmlex.models.dtos.ProductViewRootDto;
-import com.example.xmlex.models.dtos.UserSeedRootDto;
+import com.example.xmlex.models.dtos.*;
 import com.example.xmlex.services.CategoryService;
 import com.example.xmlex.services.ProductService;
 import com.example.xmlex.services.UserService;
@@ -26,6 +23,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     private static final String USERS_FILE_NAME = "users.xml";
     private static final String PRODUCTS_FILE_NAME = "products.xml";
     private static final String PRODUCTS_IN_RANGE_FILE = "products-in-range.xml";
+    private static final String SOLD_PRODUCTS_FILE = "sold-products.xml";
     private final XmlParser xmlParser;
     private final CategoryService categoryService;
     private final UserService userService;
@@ -51,7 +49,15 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
         switch (taskNumber) {
             case 1 -> productsInRange();
+            case 2 -> usersWithSoldProducts();
         }
+    }
+
+    private void usersWithSoldProducts() throws JAXBException {
+        UserViewRootDto userViewRootDto =
+                userService.findUserWithMoreThanOneSoldProduct();
+
+        xmlParser.writeToFile(OUTPUT_FILES_PATH + SOLD_PRODUCTS_FILE, userViewRootDto);
     }
 
     private void productsInRange() throws JAXBException {

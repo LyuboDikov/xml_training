@@ -13,6 +13,7 @@ public class UserWithProductDto {
     @XmlAttribute(name = "last-name")
     private String lastName;
     @XmlElement(name = "product")
+    @XmlElementWrapper(name = "sold-products")
     private List<ProductWithBuyerDto> products;
 
     public String getFirstName() {

@@ -11,7 +11,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserViewRootDto {
 
-    @XmlElement(name = "product")
+    @XmlElement(name = "user")
     private List<UserWithProductDto> products;
 
     public List<UserWithProductDto> getProducts() {

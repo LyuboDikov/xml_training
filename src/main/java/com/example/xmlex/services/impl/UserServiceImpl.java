@@ -1,6 +1,8 @@
 package com.example.xmlex.services.impl;
 
 import com.example.xmlex.models.dtos.UserSeedDto;
+import com.example.xmlex.models.dtos.UserViewRootDto;
+import com.example.xmlex.models.dtos.UserWithProductDto;
 import com.example.xmlex.models.entities.User;
 import com.example.xmlex.repositories.UserRepository;
 import com.example.xmlex.services.UserService;
@@ -43,5 +45,19 @@ public class UserServiceImpl implements UserService {
                 .nextLong(1, userRepository.count() + 1);
 
         return userRepository.findById(randomId).orElse(null);
+    }
+
+    @Override
+    public UserViewRootDto findUserWithMoreThanOneSoldProduct() {
+
+        UserViewRootDto userViewRootDto = new UserViewRootDto();
+
+        userViewRootDto.setProducts(
+                userRepository.findAllUsersWithMoreThanOneSoldProduct()
+                        .stream()
+                        .map(user -> modelMapper.map(user, UserWithProductDto.class))
+                        .toList());
+
+        return userViewRootDto;
     }
 }
