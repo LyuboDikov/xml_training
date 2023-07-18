@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface UserService {
     long getUsersCount();
-
     void seedUsers(List<UserSeedDto> users);
-
     User getRandomUser();
 }

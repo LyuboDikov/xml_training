@@ -67,6 +67,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
             CategorySeedRootDto categorySeedRootDto =
                     xmlParser.fromFile(FILES_PATH + CATEGORIES_FILE_NAME,
                     CategorySeedRootDto.class);
+
             categoryService.seedCategories(categorySeedRootDto.getCategories());
         }
 
