@@ -1,6 +1,8 @@
 package com.example.xmlex.services.impl;
 
 import com.example.xmlex.models.dtos.ProductSeedDto;
+import com.example.xmlex.models.dtos.ProductViewRootDto;
+import com.example.xmlex.models.dtos.ProductWithSellerDto;
 import com.example.xmlex.models.entities.Product;
 import com.example.xmlex.repositories.ProductRepository;
 import com.example.xmlex.services.CategoryService;
@@ -52,5 +54,33 @@ public class ProductServiceImpl implements ProductService {
                     return product;
                 })
                 .forEach(productRepository::save);
+    }
+
+    @Override
+    public ProductViewRootDto findProductInRangeWithNoBuyer() {
+
+        ProductViewRootDto productViewRootDto = new ProductViewRootDto();
+
+        productViewRootDto.setProducts(
+                productRepository.findAllByPriceBetweenAndBuyerIsNull(
+                                BigDecimal.valueOf(500L),
+                                BigDecimal.valueOf(1000L))
+                        .stream()
+                        .map(product -> {
+
+                            ProductWithSellerDto productWithSellerDto =
+                                    modelMapper.map(product, ProductWithSellerDto.class);
+
+                            productWithSellerDto.setSeller(
+                                    String.format("%s %s",
+                                            product.getSeller().getFirstName(),
+                                            product.getSeller().getLastName())
+                            );
+
+                            return productWithSellerDto;
+                        })
+                        .toList());
+
+        return productViewRootDto;
     }
 }

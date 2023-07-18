@@ -2,6 +2,7 @@ package com.example.xmlex;
 
 import com.example.xmlex.models.dtos.CategorySeedRootDto;
 import com.example.xmlex.models.dtos.ProductSeedRootDto;
+import com.example.xmlex.models.dtos.ProductViewRootDto;
 import com.example.xmlex.models.dtos.UserSeedRootDto;
 import com.example.xmlex.services.CategoryService;
 import com.example.xmlex.services.ProductService;
@@ -11,20 +12,25 @@ import jakarta.xml.bind.JAXBException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 
 @Component
 public class CommandLineRunnerImpl implements CommandLineRunner {
 
 
     private static final String FILES_PATH = "src/main/resources/files/";
+    private static final String OUTPUT_FILES_PATH = "src/main/resources/files/output/";
     private static final String CATEGORIES_FILE_NAME = "categories.xml";
     private static final String USERS_FILE_NAME = "users.xml";
     private static final String PRODUCTS_FILE_NAME = "products.xml";
+    private static final String PRODUCTS_IN_RANGE_FILE = "products-in-range.xml";
     private final XmlParser xmlParser;
     private final CategoryService categoryService;
     private final UserService userService;
     private final ProductService productService;
+    private final BufferedReader bufferedReader;
 
     public CommandLineRunnerImpl(XmlParser xmlParser, CategoryService categoryService,
                                  UserService userService, ProductService productService) {
@@ -32,12 +38,27 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         this.categoryService = categoryService;
         this.userService = userService;
         this.productService = productService;
+        this.bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }
 
     @Override
     public void run(String... args) throws Exception {
 
         seedData();
+        System.out.println("Please select task:");
+
+        int taskNumber = Integer.parseInt(bufferedReader.readLine());
+
+        switch (taskNumber) {
+            case 1 -> productsInRange();
+        }
+    }
+
+    private void productsInRange() throws JAXBException {
+        ProductViewRootDto rootDto =
+                productService.findProductInRangeWithNoBuyer();
+
+        xmlParser.writeToFile(OUTPUT_FILES_PATH + PRODUCTS_IN_RANGE_FILE, rootDto);
     }
 
     private void seedData() throws FileNotFoundException, JAXBException {
